@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-JVM-parameters-and-heap-analysis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/02/JVM-parameters-and-heap-analysis/" class="article-date">
+  <time datetime="2020-07-02T09:11:52.000Z" itemprop="datePublished">2020-07-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/02/JVM-parameters-and-heap-analysis/">JVM-parameters-and-heap-analysis</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>JVM parameters :</p>
+<pre><code>Parameters    |    Description</code></pre><p><strong>-Xms</strong> Set initial Java heap size<br><strong>-Xmx</strong> Set maximum Java heap size<br><strong>-Xmn</strong> Set YoungGen heap size<br><strong>-Xss</strong> Set the Java thread stack size<br><strong>-verbose:gc</strong> Logs GC run and taking time<br><strong>-XX:+PrintGCDetails</strong> Logs GC run details<br><strong>-XX:+PrintGCTimeStamps</strong> Print timestamps at garbage collector<br><strong>-XX:+PrintHeapAtGC</strong> Print detailed stack information before and after GC<br><strong>-Xloggc:filepath</strong> Set garbage collector log save path</p>
+<p><strong>How to set:</strong><br><strong>Eclips IDE:</strong>    Window-&gt;Preferences-&gt;Java-&gt;Installed JRE , click the Edit button , fill in the “Default VM Arguments” option.<br><strong>Tomcat:</strong><br>        Windows platform: go to the bin directory of Tomcat, open the file catalina.bat, and add the following parameters<br>                        {% highlight js %}set "JAVA_OPTS=-Xms1024m -Xmx1024m -Xmn512M -XX:+PrintHeapAtGC -Xloggc:E:\Log\gc.log"{% endhighlight %}
+		Linux platform: go to the bin directory of Tomcat, open the file catalina.sh, and add the following parameters
+						{% highlight js %}set "JAVA_OPTS=-Xms1024m -Xmx1024m -Xmn512M -XX:+PrintHeapAtGC -Xloggc:E:\Log\gc.log"{% endhighlight %}</p>
+<p><strong>Heap analysis tools:</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ jvisualvm</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/07/02/JVM-parameters-and-heap-analysis/jvisualvm.png" alt></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ jconsole</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/07/02/JVM-parameters-and-heap-analysis/jconsole.png" alt><br><strong>command line view:</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ jmap -heap PID</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/07/02/JVM-parameters-and-heap-analysis/jmap.png" alt></p>
+<p><strong>gclog:</strong></p>
+<p>Java HotSpot(TM) 64-Bit Server VM (25.192-b12) for windows-amd64 JRE (1.8.0_192-b12), built on Oct  6 2018 17:12:23 by “java_re” with MS VC++ 10.0 (VS2010)<br>Memory: 4k page, physical 16645204k(6734608k free), swap 19135572k(6454900k free)<br>CommandLine flags: -XX:InitialHeapSize=10485760 -XX:MaxHeapSize=10485760 -XX:MaxNewSize=4194304 -XX:NewSize=4194304 -XX:+PrintGC -XX:+PrintGCTimeStamps -XX:+PrintHeapAtGC -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:-UseLargePagesIndividualAllocation -XX:+UseParallelGC<br>{Heap before GC invocations=1 (full 0):<br>PSYoungGen      total 3584K, used 2922K (0x00000000ffc00000, 0x0000000100000000, 0x0000000100000000)<br>eden space 3072K, 95% used (0x00000000ffc00000,0x00000000ffedaa08,0x00000000fff00000)<br>from space 512K, 0% used (0x00000000fff80000,0x00000000fff80000,0x0000000100000000)<br>to   space 512K, 0% used (0x00000000fff00000,0x00000000fff00000,0x00000000fff80000)<br>ParOldGen       total 6144K, used 0K (0x00000000ff600000, 0x00000000ffc00000, 0x00000000ffc00000)<br>object space 6144K, 0% used (0x00000000ff600000,0x00000000ff600000,0x00000000ffc00000)<br>Metaspace       used 3892K, capacity 4830K, committed 5120K, reserved 1056768K<br>class space    used 421K, capacity 465K, committed 512K, reserved 1048576K<br>9.480: [GC (Allocation Failure)  2922K-&gt;868K(9728K), 0.1870378 secs]<br>Heap after GC invocations=1 (full 0):<br>PSYoungGen      total 3584K, used 496K (0x00000000ffc00000, 0x0000000100000000, 0x0000000100000000)<br>eden space 3072K, 0% used (0x00000000ffc00000,0x00000000ffc00000,0x00000000fff00000)<br>from space 512K, 96% used (0x00000000fff00000,0x00000000fff7c010,0x00000000fff80000)<br>to   space 512K, 0% used (0x00000000fff80000,0x00000000fff80000,0x0000000100000000)<br>ParOldGen       total 6144K, used 372K (0x00000000ff600000, 0x00000000ffc00000, 0x00000000ffc00000)<br>object space 6144K, 6% used (0x00000000ff600000,0x00000000ff65d138,0x00000000ffc00000)<br>Metaspace       used 3892K, capacity 4830K, committed 5120K, reserved 1056768K<br> class space    used 421K, capacity 465K, committed 512K, reserved 1048576K</p>
+<p><strong>MAT:</strong></p>
+<pre><code class="bash">$ jps -l
+$ jmap -dump:file=X.dump PID</code></pre>
+<pre><code>open MemoryAnalyzer.exe,click &apos;File&apos;-&gt;&apos;Open Heap Dump&apos;-&gt;choose x.dump-&gt;click &apos;finish&apos;-&gt;choose &apos;Leak Suspects Report&apos;</code></pre><p><img src="/2020/07/02/JVM-parameters-and-heap-analysis/mat.png" alt><br>        click details or find object by address to see Call stack<br><img src="/2020/07/02/JVM-parameters-and-heap-analysis/detail.png" alt><br><img src="/2020/07/02/JVM-parameters-and-heap-analysis/stack.png" alt> </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/02/JVM-parameters-and-heap-analysis/" data-id="ckc4jqz6q0000k0v75jqw54s3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/02/JVM-parameters-and-heap-analysis/">JVM-parameters-and-heap-analysis</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
